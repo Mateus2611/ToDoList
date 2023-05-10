@@ -9,7 +9,9 @@ function MyStack() {
 	return (
 		<NavigationContainer>
 			<Navigator>
-				<Screen name="HomePage" component={HomePage} />
+				<Screen name="HomePage" component={HomePage} options={{
+					headerShown: false
+				}}/>
 			</Navigator>
 		</NavigationContainer>
 	);
