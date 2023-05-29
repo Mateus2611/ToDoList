@@ -5,9 +5,9 @@ import MyStack from "./src/Routes/stack.routes";
 
 export default function App() {
 	return (
-		<SafeAreaView className="flex-1">
+		<SafeAreaView className="flex-1 bg-FFE5D9">
 			<MyStack />
-			<StatusBar backgroundColor="white" barStyle="dark-content" />
+			<StatusBar backgroundColor="#FFE5D9" barStyle="dark-content" />
 		</SafeAreaView>
 	);
 }
