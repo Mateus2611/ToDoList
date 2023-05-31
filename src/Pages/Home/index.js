@@ -1,14 +1,65 @@
 import React from "react";
-import { ScrollView, Text, View, StatusBar } from "react-native";
-import { Entypo } from '@expo/vector-icons';
+import {
+	ScrollView,
+	Text,
+	View,
+	TouchableOpacity,
+	TextInput,
+} from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyledComponent } from "nativewind";
 
 export default function HomePage({ navigation }) {
 	return (
-		<ScrollView className="flex-1 bg-FFE5D9">
-			<StatusBar backgroundColor="#FFE5D9" barStyle="dark-content" />
-			<View className="bg-F4ACB7 rounded-lg w-10 h-10 m-5 flex items-center">
-				<Entypo name="menu" size={30} color="#9D8189"/>
-			</View>
-		</ScrollView>
+		<StyledComponent component={ScrollView} className="flex-1 bg-FFE5D9">
+			<StyledComponent
+				component={View}
+				className="flex flex-row m-5 justify-between"
+			>
+				<>
+					<StyledComponent
+						component={TouchableOpacity}
+						className="bg-FFCAD4 rounded-lg w-10 h-10 flex items-center justify-center"
+					>
+						<Entypo name="menu" size={30} color="#9D8189" />
+					</StyledComponent>
+				</>
+
+				<>
+					<StyledComponent
+						component={TextInput}
+						className="bg-FFCAD4 rounded-lg h-10 w-56 flex text-9D8189 p-1"
+						placeholder="Pesquisar suas notas"
+						placeholderTextColor={"#9D8189"}
+					/>
+				</>
+
+				<>
+					<StyledComponent
+						component={TouchableOpacity}
+						className="bg-FFCAD4 rounded-lg w-10 h-10 flex items-center justify-center"
+					>
+						<MaterialCommunityIcons
+							name="view-stream-outline"
+							size={30}
+							color="#9D8189"
+						/>
+					</StyledComponent>
+				</>
+			</StyledComponent>
+
+			<StyledComponent
+				component={View}
+				className="flex-1 fixed items-end justify-end"
+			>
+				<StyledComponent
+					component={TouchableOpacity}
+					className="bg-FFCAD4 rounded-lg w-14 h-14 flex items-center justify-center"
+				>
+					<Entypo name="plus" size={38} color="#9D8189" />
+				</StyledComponent>
+			</StyledComponent>
+		</StyledComponent>
 	);
 }
