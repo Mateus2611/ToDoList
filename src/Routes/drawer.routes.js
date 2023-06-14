@@ -7,13 +7,12 @@ import {
 } from "@react-navigation/drawer";
 import HomePage from "../Pages/Home";
 import CreateList from "../Pages/CreateList";
+import CreateSticker from "../Pages/CreateSticker";
 
 function StyledDrawer(props) {
 	return (
 		<DrawerContentScrollView style={styles.container} {...props}>
-			<DrawerItemList style={styles.box} {...props}>
-				<DrawerView style={styles.circle} />
-			</DrawerItemList>
+			<DrawerItemList style={styles.box} {...props} />
 		</DrawerContentScrollView>
 	);
 }
@@ -23,7 +22,7 @@ const Drawer = createDrawerNavigator();
 function MyDrawer() {
 	return (
 		<Drawer.Navigator
-			initialRouteName="HomePage"
+			initialRouteName="Notas"
 			screenOptions={{
 				headerShown: false,
 				drawerItemStyle: styles.box,
@@ -33,8 +32,8 @@ function MyDrawer() {
 			useLegacyImplementation
 			drawerContent={(props) => <StyledDrawer {...props} />}
 		>
-			<Drawer.Screen name="HomePage" component={HomePage} />
-			<Drawer.Screen name="CreateList" component={CreateList} />
+			<Drawer.Screen name="Notas" component={HomePage} />
+			<Drawer.Screen name="Etiquetas" component={CreateSticker} />
 		</Drawer.Navigator>
 	);
 }

@@ -3,7 +3,7 @@ module.exports = {
 	content: [
 		"./App.js",
 		"./src/Pages/*/*.js",
-		"./src/Components/*/*.js"
+		"./src/Components/*.js"
 	],
 	theme: {
 		colors: {

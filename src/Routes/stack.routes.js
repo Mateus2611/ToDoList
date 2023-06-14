@@ -12,7 +12,7 @@ function MyStack() {
 		<NavigationContainer>
 			<Navigator screenOptions={{ headerShown: false }}>
 				<Screen name="MyDrawer" component={MyDrawer} />
-				<Screen name="HomePage" component={HomePage} />
+				<Screen name="Notas" component={HomePage} />
 				<Screen name="CreateList" component={CreateList} />
 			</Navigator>
 		</NavigationContainer>
