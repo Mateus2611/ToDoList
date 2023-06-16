@@ -9,55 +9,59 @@ export default function CreateList({ navigation }) {
 
 	const [titulo, setTitulo] = useState("");
 	const [descricao, setDescricao] = useState("");
-	const [nomeItemLista, setNomeItemLista] = useState("");
-	const [itemLista, setItemLista] = useState([]);
+	const [nomeCheckbox, setNomeChackbox] = useState("");
+	const [checkbox, setCheckbox] = useState([]);
 
 
-	
+	const adicionarCheckbox = (nome) => {
+		const novaCheckbox = {
+			nome,
+			marcado: false,
+		};
 
-
-	const addItem = async () => {
-		if (nomeItemLista.trim() !== "") {
-			const novoItem = {
-				texto: nomeItemLista,
-				marcador: false,
-			};
-			setItemLista([...itemLista, novoItem]);
-			setNomeItemLista("");
-		}
+		setCheckbox([...checkbox, novaCheckbox]);
 	};
 
-	const marcarItem = (index) => {
-		const itensAtualizados = [...itemLista];
-		itensAtualizados[index].marcado = !itensAtualizados[index].marcado;
-		setItemLista(itensAtualizados);
+
+	const marcarCheckbox = (index) => {
+		const checkboxAtualizada = [...checkbox];
+		checkboxAtualizada[index].marcado = !checkboxAtualizada[index].marcado;
+		setCheckbox(checkboxAtualizada);
 	}
 
 
-	const renderItemUnchecked = itemLista
-		.filter((item) => !item.marcado)
-		.map((item, index) => (
-			<View key={index} className="flex flex-row items-center" >
-				<Checkbox color={"#9D8189"} value={item.marcado} onValueChange={() => marcarItem(index)} />
-				<Text className="text-9D8189 text-lg m-2" >{item.texto}</Text>
-			</View>
-		));
+	const salvarDados = async () => {
+		try {
+			await AsyncStorage.setItem("@KEY_TITULO", titulo);
+			await AsyncStorage.setItem("@KEY_DESCRICAO", descricao);
+			await AsyncStorage.setItem("@KEY_CHECKBOX", JSON.stringify(checkbox));
+			console.log("Dados salvos com sucesso!");
+		} catch (error) {
+			console.log("Erro ao salvar dados", error);		}
+	};
 
 
-	const renderItemChecked = itemLista
-		.filter((item) => item.marcado)
-		.map((item, index) => (
-		<View key={index} className="flex flex-col">
-			<View className="flex flex-row items-center" >
-				<Checkbox color={"#9D8189"} value={item.marcado} onValueChange={() => marcarItem(index)} />
-				<Text className="text-9D8189 text-lg m-2">{item.texto}</Text>
-			</View>
-		</View>
-	));
+	React.useEffect(() => {
+		const recuperarDados = async () => {
+			try {
+				const getTitulo = await AsyncStorage.getItem("@KEY_TITULO");
+				const getDescricao = await AsyncStorage.getItem("@KEY_DESCRICAO");
+				const getCheckbox = await AsyncStorage.getItem("@KEY_CHECKBOX");
 
+				if (getTitulo && getDescricao && getCheckbox) {
+					setTitulo(getTitulo);
+					setDescricao(getDescricao);
+					setCheckbox(JSON.parse(getCheckbox));
 
+					console.log("Sucesso ao recuperar dados!")
+				};
+			} catch (error) {
+				console.log("Erro ao recuperar dados", error);;
+			}
+		} 
 
-
+		recuperarDados();
+	}, []);
 
 	return (
 		<View className="flex-1 bg-FFE5D9">
@@ -70,93 +74,31 @@ export default function CreateList({ navigation }) {
 						<Feather name="arrow-left" size={30} color="#9D8189" />
 					</TouchableOpacity>
 				</View>
-
-
-				<View className="flex flex-row mx-1">
-				<View className="flex flex-row mx-5 mt-3 mb-16 items-center justify-start">
-					<TouchableOpacity
-					className="bg-FFCAD4 rounded-2xl w-12 h-12 flex items-center justify-center"
-					onPress={console.log("Favorito")}
-					>
-						<Feather name="star" size={30} color="#9D8189" />
-					</TouchableOpacity>
-				</View>
-
-
-				<View className="flex flex-row mx-5 mt-3 mb-16 items-center justify-start">
-					<TouchableOpacity
-					className="bg-FFCAD4 rounded-2xl w-12 h-12 flex items-center justify-center"
-					onPress={console.log("Alerta")}
-					>
-						<Feather name="bell" size={30} color="#9D8189" />
-					</TouchableOpacity>
-				</View>
-				</View>
 			</View>
 
 
-			<ScrollView className="self-center">
-				<View className="flex flex-row items-center bg-F4ACB7 h-20 w-96 rounded-t-2xl">
-					<View>
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-					</View>
-					<TextInput placeholder="Adicionar Titulo" placeholderTextColor={"#9D8189"} className="text-9D8189 text-2xl border-b-2 border-b-9D8189 py-1 w-80" onChangeText={ (titulo) => setTitulo(titulo) }/>
+			<ScrollView>
+				<TextInput placeholder="Adicionar Titulo" value={titulo} onChangeText={setTitulo} />
+				<TextInput placeholder="Insira a descrição" value={descricao} onChangeText={setDescricao} multiline />
+				<View>
+					<TextInput placeholder="Adicionar item" value={nomeCheckbox} onChangeText={setNomeChackbox} />
+					<TouchableOpacity onPress={ () => adicionarCheckbox(nomeCheckbox) } >
+						<Entypo name="plus" size={30} color={"#9D8189"} />
+					</TouchableOpacity>
 				</View>
 
 
-				<View className="flex flex-row items-center bg-D8E2DC h-96 w-96 rounded-b-2xl">
-					<View>
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
-						<View className="bg-FFE5D9 rounded-full my-2 ml-3 mr-4 w-4 h-4" />
+				{checkbox.map((checkbox, index) => (
+					<View key={index}>
+						<Checkbox value={checkbox.marcado} onValueChange={ () => marcarCheckbox(index) }/>
+						<Text>{checkbox.nome}</Text>
 					</View>
+				))}
 
-
-					<View >
-						<TextInput
-							className="text-9D8189 text-lg"
-							placeholderTextColor={"#9D8189"}
-							autoFocus
-							multiline
-							placeholder="Insira a descrição..."
-							onChangeText={ (descricao) => setDescricao(descricao) }
-						/>
-
-
-						<View className="flex-row">
-							<TextInput className="text-9D8189 text-lg border-b-2 border-b-9D8189 py-1 w-64" placeholder="Adicionar tarefa" placeholderTextColor={"#9D8189"} value={nomeItemLista} onChangeText={setNomeItemLista} />
-							<TouchableOpacity onPress={addItem}>
-								<Entypo name="plus" size={30} color="#9D8189" />
-							</TouchableOpacity>
-						</View>
-
-
-						{renderItemUnchecked}
-
-						<Text className="text-9D8189 text-lg">Itens marcados:</Text>
-						{renderItemChecked}
-
-					</View>
-				</View>
+				<TouchableOpacity onPress={salvarDados}>
+					<Text>Salvar</Text>
+				</TouchableOpacity>
 			</ScrollView>
-
-
-			<TouchableOpacity
-				className="bg-FFCAD4 rounded-2xl w-16 h-16 flex items-center justify-center absolute bottom-0 right-0 m-5"
-				onPress={console.log("modal")}
-			>
-				<Entypo name="dots-three-vertical" size={40} color="#9D8189" />
-			</TouchableOpacity>
 		</View>
 	);
 }
