@@ -3,10 +3,8 @@ import {
 	createDrawerNavigator,
 	DrawerContentScrollView,
 	DrawerItemList,
-	DrawerView,
 } from "@react-navigation/drawer";
 import HomePage from "../Pages/Home";
-import CreateList from "../Pages/CreateList";
 import CreateSticker from "../Pages/CreateSticker";
 
 function StyledDrawer(props) {

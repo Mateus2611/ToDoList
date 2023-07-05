@@ -7,6 +7,9 @@ module.exports = {
 	],
 	theme: {
 		colors: {
+			'SHADOW' : "rgba(0, 0, 0, 0.5)",
+			'000000' : "#000000",
+			'FFFFFF' : "#FFFFFF",
 			'D8E2DC' : '#D8E2DC',
 			'FFE5D9' : '#FFE5D9',
 			'FFCAD4' : '#FFCAD4',
